@@ -392,11 +392,7 @@ export default defineComponent({
 
       sorted.forEach((memo) => {
         if (!groups[memo.date]) groups[memo.date] = [];
-        // TS Fix: Nutze optional chaining oder explicit check, um undefined zu vermeiden
-        const currentGroup = groups[memo.date];
-        if (currentGroup) {
-          currentGroup.push(memo);
-        }
+        groups[memo.date].push(memo);
       });
 
       // Rückgabe sortiert nach Datum (Schlüssel)
@@ -405,11 +401,7 @@ export default defineComponent({
         .reverse()
         .reduce(
           (acc, date) => {
-            // TS Fix: Sicherstellen, dass der Wert nicht undefined ist
-            const group = groups[date];
-            if (group) {
-              acc[date] = group;
-            }
+            acc[date] = groups[date];
             return acc;
           },
           {} as Record<string, MemoEntry[]>,
@@ -441,12 +433,9 @@ export default defineComponent({
       }
 
       const now = new Date();
-      // TS Fix: Sicherstellen, dass date ein string ist
-      const dateString = now.toISOString().split('T')[0] as string;
-
       const newEntry: MemoEntry = {
         id: Date.now(),
-        date: dateString, // YYYY-MM-DD
+        date: now.toISOString().split('T')[0], // YYYY-MM-DD
         time: now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }),
         transcript: transcript.value,
         rawSummary: summary.value,

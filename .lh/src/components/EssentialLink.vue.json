@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/components/EssentialLink.vue",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1764521506138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1764521661455,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,48 +0,0 @@\n-<template>\n-  <q-item clickable tag=\"a\" target=\"_blank\" :href=\"link\">\n-    <q-item-section v-if=\"icon\" avatar>\n-      <q-icon :name=\"icon\" />\n-    </q-item-section>\n-\n-    <q-item-section>\n-      <q-item-label>{{ title }}</q-item-label>\n-      <q-item-label caption>{{ caption }}</q-item-label>\n-    </q-item-section>\n-  </q-item>\n-</template>\n-\n-<script lang=\"ts\">\n-import { defineComponent } from 'vue';\n-\n-export interface EssentialLinkProps {\n-  title: string;\n-  caption?: string;\n-  link?: string;\n-  icon?: string;\n-}\n-\n-export default defineComponent({\n-  name: 'EssentialLink',\n-  props: {\n-    title: {\n-      type: String,\n-      required: true,\n-    },\n-\n-    caption: {\n-      type: String,\n-      default: '',\n-    },\n-\n-    link: {\n-      type: String,\n-      default: '#',\n-    },\n-\n-    icon: {\n-      type: String,\n-      default: '',\n-    },\n-  },\n-});\n-</script>\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1764521506138,
+            "name": "Commit-0",
+            "content": ""
+        }
+    ]
+}

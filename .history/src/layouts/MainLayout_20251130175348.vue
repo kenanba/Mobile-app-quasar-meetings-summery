@@ -8,9 +8,14 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
 
 export default defineComponent({
   name: 'MainLayout',
+
+  components: {
+    EssentialLink,
+  },
 
   setup() {
     const leftDrawerOpen = ref(false);

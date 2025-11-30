@@ -11,14 +11,7 @@
 
     <!-- State: Leer / Start -->
     <div
-      v-if="
-        !transcript &&
-        !interimTranscript &&
-        !summary &&
-        !isRecording &&
-        hasKey &&
-        savedMemos.length === 0
-      "
+      v-if="!transcript && !interimTranscript && !summary && !isRecording && hasKey"
       class="text-center q-pa-lg"
     >
       <q-icon name="mic_none" size="80px" color="grey-8" />
@@ -59,122 +52,63 @@
             <div class="text-h6 text-pink-3">
               <q-icon name="auto_awesome" class="q-mr-sm" />KI Zusammenfassung
             </div>
-            <div class="row q-gutter-sm">
-              <!-- Save Button (Optional now, since auto-save) -->
-              <q-btn flat round icon="save" color="primary" @click="saveMemo(true)">
-                <q-tooltip>Manuell Speichern</q-tooltip>
-              </q-btn>
-              <!-- Copy Button -->
-              <q-btn flat round icon="content_copy" size="sm" @click="copyToClipboard(summary)" />
-            </div>
+            <q-btn flat round icon="content_copy" size="sm" @click="copyToClipboard(summary)" />
           </div>
           <div class="text-body1" v-html="simpleRenderMarkdown(summary)"></div>
         </q-card-section>
       </q-card>
     </div>
 
-    <!-- Controls -->
-    <div v-if="hasKey" class="row q-gutter-md items-center justify-center q-mb-xl">
-      <!-- Record Button -->
-      <q-btn
-        round
-        size="xl"
-        :color="isRecording ? 'red-5' : 'pink-5'"
-        :icon="isRecording ? 'stop' : 'mic'"
-        :class="{ 'recording-pulse': isRecording }"
-        @click="toggleRecording"
-      />
-
-      <!-- Summarize Button -->
-      <transition
-        appear
-        enter-active-class="animated fadeInRight"
-        leave-active-class="animated fadeOutRight"
-      >
+    <!-- Sticky Bottom Controls -->
+    <q-page-sticky v-if="hasKey" position="bottom" :offset="[0, 30]">
+      <div class="row q-gutter-md items-center">
+        <!-- Record Button -->
         <q-btn
-          v-if="transcript.length > 10 && !isRecording"
-          rounded
-          color="white"
-          text-color="black"
-          icon="auto_awesome"
-          label="Zusammenfassen"
-          :loading="loading"
-          @click="generateSummary"
-        />
-      </transition>
-
-      <!-- Clear Button -->
-      <transition
-        appear
-        enter-active-class="animated fadeInLeft"
-        leave-active-class="animated fadeOutLeft"
-      >
-        <q-btn
-          v-if="transcript.length > 0 && !isRecording"
           round
-          flat
-          color="grey-6"
-          icon="refresh"
-          @click="clearAll"
-        >
-          <q-tooltip>Neu starten</q-tooltip>
-        </q-btn>
-      </transition>
-    </div>
+          size="xl"
+          :color="isRecording ? 'red-5' : 'pink-5'"
+          :icon="isRecording ? 'stop' : 'mic'"
+          :class="{ 'recording-pulse': isRecording }"
+          @click="toggleRecording"
+        />
 
-    <!-- Historie / Saved Memos (Folder Structure) -->
-    <div v-if="hasKey && savedMemos.length > 0" class="full-width q-mt-lg" style="max-width: 600px">
-      <div class="text-h6 q-mb-md text-grey-4">Historie</div>
-
-      <q-list dark bordered separator class="rounded-borders">
-        <!-- Loop over grouped dates (Folders) -->
-        <q-expansion-item
-          v-for="(memos, date) in groupedMemos"
-          :key="date"
-          icon="folder"
-          :label="formatDateLabel(date)"
-          header-class="text-pink-3 bg-grey-10"
-          expand-separator
-          dark
+        <!-- Summarize Button -->
+        <transition
+          appear
+          enter-active-class="animated fadeInRight"
+          leave-active-class="animated fadeOutRight"
         >
-          <!-- Items inside the folder -->
-          <div class="bg-dark q-pa-sm">
-            <q-card v-for="memo in memos" :key="memo.id" class="bg-grey-9 q-mb-sm" flat>
-              <q-card-section>
-                <div class="row justify-between items-center no-wrap">
-                  <div class="text-caption text-grey-5">{{ memo.time }} Uhr</div>
-                  <q-btn
-                    flat
-                    round
-                    size="sm"
-                    icon="delete"
-                    color="red-4"
-                    @click="deleteMemo(memo.id)"
-                  />
-                </div>
-                <div class="text-body2 ellipsis-2-lines text-grey-3 q-mt-xs">
-                  {{ memo.rawSummary.substring(0, 100) }}...
-                </div>
-              </q-card-section>
-              <q-card-section v-if="memo.showDetails" class="q-pt-none">
-                <div class="text-body2" v-html="simpleRenderMarkdown(memo.rawSummary)"></div>
-                <q-separator dark class="q-my-sm" />
-                <div class="text-caption text-grey-5">Transkript:</div>
-                <div class="text-caption text-grey-6">{{ memo.transcript }}</div>
-              </q-card-section>
-              <q-card-actions align="right">
-                <q-btn
-                  flat
-                  size="sm"
-                  :label="memo.showDetails ? 'Weniger' : 'Anzeigen'"
-                  @click="memo.showDetails = !memo.showDetails"
-                />
-              </q-card-actions>
-            </q-card>
-          </div>
-        </q-expansion-item>
-      </q-list>
-    </div>
+          <q-btn
+            v-if="transcript.length > 10 && !isRecording"
+            rounded
+            color="white"
+            text-color="black"
+            icon="auto_awesome"
+            label="Zusammenfassen"
+            :loading="loading"
+            @click="generateSummary"
+          />
+        </transition>
+
+        <!-- Clear Button -->
+        <transition
+          appear
+          enter-active-class="animated fadeInLeft"
+          leave-active-class="animated fadeOutLeft"
+        >
+          <q-btn
+            v-if="transcript.length > 0 && !isRecording"
+            round
+            flat
+            color="grey-6"
+            icon="refresh"
+            @click="clearAll"
+          >
+            <q-tooltip>Neu starten</q-tooltip>
+          </q-btn>
+        </transition>
+      </div>
+    </q-page-sticky>
 
     <!-- Settings / Welcome Dialog -->
     <q-dialog v-model="showSettings" persistent>
@@ -210,18 +144,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, watch } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import { useQuasar, copyToClipboard as qCopy } from 'quasar';
-
-// --- Typ-Definitionen für Memos ---
-interface MemoEntry {
-  id: number;
-  date: string; // YYYY-MM-DD
-  time: string; // HH:MM
-  transcript: string;
-  rawSummary: string;
-  showDetails?: boolean; // Für UI toggle
-}
 
 // --- Typ-Definitionen für Web Speech API ---
 interface SpeechRecognitionEvent {
@@ -265,13 +189,10 @@ export default defineComponent({
 
     // State Vars
     const transcript = ref<string>('');
-    const interimTranscript = ref<string>('');
+    const interimTranscript = ref<string>(''); // Neu: Für Echtzeit-Text
     const summary = ref<string>('');
     const isRecording = ref<boolean>(false);
     const loading = ref<boolean>(false);
-
-    // Saved Memos
-    const savedMemos = ref<MemoEntry[]>([]);
 
     // Auth / Settings State
     const showSettings = ref<boolean>(false);
@@ -284,23 +205,7 @@ export default defineComponent({
     // Speech Recognition Instance
     let recognition: SpeechRecognition | null = null;
 
-    // Load Memos & Init
     onMounted(() => {
-      // 0. Load Memos safely
-      const loaded = localStorage.getItem('quasar_memo_history');
-      if (loaded) {
-        try {
-          const parsed = JSON.parse(loaded);
-          if (Array.isArray(parsed)) {
-            savedMemos.value = parsed;
-          }
-        } catch (e) {
-          console.error('Fehler beim Laden der Historie', e);
-          // Bei Fehler resetten, um Probleme zu vermeiden
-          savedMemos.value = [];
-        }
-      }
-
       // 1. Check for API Key
       const key = localStorage.getItem('gemini_api_key');
       if (key) {
@@ -328,8 +233,8 @@ export default defineComponent({
 
           for (let i = event.resultIndex; i < event.results.length; ++i) {
             const res = event.results[i];
-            if (!res) continue;
-            const text = res[0] ? res[0].transcript : '';
+            // Wir nehmen an, das erste Alternative (Index 0) ist das beste
+            const text = res[0].transcript;
 
             if (res.isFinal) {
               finalChunk += text;
@@ -338,9 +243,10 @@ export default defineComponent({
             }
           }
 
+          // Update State
           if (finalChunk) {
             transcript.value += (transcript.value ? ' ' : '') + finalChunk;
-            interimTranscript.value = '';
+            interimTranscript.value = ''; // Reset interim wenn final da ist
           } else {
             interimTranscript.value = interimChunk;
           }
@@ -348,6 +254,7 @@ export default defineComponent({
 
         recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
           console.error('Speech Error:', event.error);
+          // Ignoriere 'no-speech' Fehler, die passieren oft bei Stille
           if (event.error !== 'no-speech') {
             isRecording.value = false;
             $q.notify({
@@ -357,12 +264,13 @@ export default defineComponent({
           }
         };
 
+        // Wenn die Aufnahme von selbst stoppt (z.B. Timeout), versuchen wir neu zu starten, wenn wir noch aufnehmen wollen
         recognition.onend = () => {
           if (isRecording.value && recognition) {
             try {
               recognition.start();
-            } catch {
-              // Ignore
+            } catch (e) {
+              // Ignorieren wenn schon gestartet
             }
           }
         };
@@ -372,48 +280,6 @@ export default defineComponent({
           message: 'Browser unterstützt Web Speech API nicht.',
         });
       }
-    });
-
-    // Watcher: Speichert Änderungen an savedMemos automatisch in LocalStorage
-    watch(
-      savedMemos,
-      (newVal) => {
-        localStorage.setItem('quasar_memo_history', JSON.stringify(newVal));
-      },
-      { deep: true },
-    );
-
-    // Computed: Gruppieren nach Datum (Ordner)
-    const groupedMemos = computed(() => {
-      const groups: Record<string, MemoEntry[]> = {};
-
-      // Erst sortieren (neueste zuerst)
-      const sorted = [...savedMemos.value].sort((a, b) => b.id - a.id);
-
-      sorted.forEach((memo) => {
-        if (!groups[memo.date]) groups[memo.date] = [];
-        // TS Fix: Nutze optional chaining oder explicit check, um undefined zu vermeiden
-        const currentGroup = groups[memo.date];
-        if (currentGroup) {
-          currentGroup.push(memo);
-        }
-      });
-
-      // Rückgabe sortiert nach Datum (Schlüssel)
-      return Object.keys(groups)
-        .sort()
-        .reverse()
-        .reduce(
-          (acc, date) => {
-            // TS Fix: Sicherstellen, dass der Wert nicht undefined ist
-            const group = groups[date];
-            if (group) {
-              acc[date] = group;
-            }
-            return acc;
-          },
-          {} as Record<string, MemoEntry[]>,
-        );
     });
 
     // Actions
@@ -434,49 +300,13 @@ export default defineComponent({
       $q.notify({ color: 'green', message: 'Key gespeichert!' });
     };
 
-    const saveMemo = (manual = false) => {
-      if (!summary.value) {
-        if (manual) $q.notify({ color: 'warning', message: 'Nichts zu speichern.' });
-        return;
-      }
-
-      const now = new Date();
-      // TS Fix: Sicherstellen, dass date ein string ist
-      const dateString = now.toISOString().split('T')[0] as string;
-
-      const newEntry: MemoEntry = {
-        id: Date.now(),
-        date: dateString, // YYYY-MM-DD
-        time: now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }),
-        transcript: transcript.value,
-        rawSummary: summary.value,
-        showDetails: false,
-      };
-
-      savedMemos.value.unshift(newEntry);
-      // LocalStorage wird durch den Watcher automatisch aktualisiert
-      if (manual) $q.notify({ color: 'green', icon: 'save', message: 'Gespeichert!' });
-      else $q.notify({ color: 'green', icon: 'auto_awesome', message: 'Automatisch gespeichert' });
-    };
-
-    const deleteMemo = (id: number) => {
-      savedMemos.value = savedMemos.value.filter((m) => m.id !== id);
-      $q.notify({ color: 'grey', message: 'Gelöscht.' });
-    };
-
-    const formatDateLabel = (isoDate: string) => {
-      if (!isoDate) return 'Unbekanntes Datum';
-      const [year, month, day] = isoDate.split('-');
-      return `${day}.${month}.${year}`;
-    };
-
     const toggleRecording = () => {
       if (!recognition) return;
 
       if (isRecording.value) {
         isRecording.value = false;
         recognition.stop();
-        interimTranscript.value = '';
+        interimTranscript.value = ''; // Clear interim on stop
       } else {
         isRecording.value = true;
         recognition.start();
@@ -529,9 +359,10 @@ Du bist ein professioneller Assistent. Fasse zusammen:
 Transkript: "${transcript.value} ${interimTranscript.value}"
       `;
 
-      const fetchGemini = async (model: string) => {
-        return fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${storedApiKey}`,
+      try {
+        // Change model to gemini-1.5-flash-latest to avoid 404 on some keys/regions
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${storedApiKey}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -539,27 +370,20 @@ Transkript: "${transcript.value} ${interimTranscript.value}"
               contents: [{ parts: [{ text: prompt }] }],
             }),
           },
-        ).then((res) => res.json());
-      };
+        );
 
-      try {
-        let data = await fetchGemini('gemini-2.5-pro');
+        const data = await response.json();
 
         if (data.error) {
-          console.warn('Flash fehlgeschlagen, versuche Pro...', data.error);
-          data = await fetchGemini('gemini-pro');
-        }
-
-        if (data.error) {
-          throw new Error(data.error.message || 'API Error');
+          // Fallback attempt with gemini-pro if flash fails
+          if (data.error.code === 404) {
+            throw new Error('Modell nicht gefunden. Bitte Key prüfen oder gemini-pro nutzen.');
+          }
+          throw new Error(data.error.message);
         }
 
         if (data.candidates && data.candidates[0] && data.candidates[0].content) {
           summary.value = data.candidates[0].content.parts[0].text;
-
-          // --- AUTOMATISCHES SPEICHERN ---
-          saveMemo(false); // false = nicht manuell, also automatisch
-          // -------------------------------
         } else {
           throw new Error('Keine Antwort von Gemini erhalten.');
         }
@@ -583,8 +407,6 @@ Transkript: "${transcript.value} ${interimTranscript.value}"
       showSettings,
       apiKeyInput,
       hasKey,
-      savedMemos,
-      groupedMemos,
       openSettings,
       saveKey,
       toggleRecording,
@@ -592,9 +414,6 @@ Transkript: "${transcript.value} ${interimTranscript.value}"
       simpleRenderMarkdown,
       copyToClipboard,
       generateSummary,
-      saveMemo,
-      deleteMemo,
-      formatDateLabel,
     };
   },
 });

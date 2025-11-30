@@ -60,9 +60,9 @@
               <q-icon name="auto_awesome" class="q-mr-sm" />KI Zusammenfassung
             </div>
             <div class="row q-gutter-sm">
-              <!-- Save Button (Optional now, since auto-save) -->
-              <q-btn flat round icon="save" color="primary" @click="saveMemo(true)">
-                <q-tooltip>Manuell Speichern</q-tooltip>
+              <!-- Save Button -->
+              <q-btn flat round icon="save" color="primary" @click="saveMemo">
+                <q-tooltip>Speichern</q-tooltip>
               </q-btn>
               <!-- Copy Button -->
               <q-btn flat round icon="content_copy" size="sm" @click="copyToClipboard(summary)" />
@@ -210,7 +210,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, watch } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useQuasar, copyToClipboard as qCopy } from 'quasar';
 
 // --- Typ-Definitionen für Memos ---
@@ -284,20 +284,14 @@ export default defineComponent({
     // Speech Recognition Instance
     let recognition: SpeechRecognition | null = null;
 
-    // Load Memos & Init
     onMounted(() => {
-      // 0. Load Memos safely
+      // 0. Load Memos
       const loaded = localStorage.getItem('quasar_memo_history');
       if (loaded) {
         try {
-          const parsed = JSON.parse(loaded);
-          if (Array.isArray(parsed)) {
-            savedMemos.value = parsed;
-          }
+          savedMemos.value = JSON.parse(loaded);
         } catch (e) {
           console.error('Fehler beim Laden der Historie', e);
-          // Bei Fehler resetten, um Probleme zu vermeiden
-          savedMemos.value = [];
         }
       }
 
@@ -374,15 +368,6 @@ export default defineComponent({
       }
     });
 
-    // Watcher: Speichert Änderungen an savedMemos automatisch in LocalStorage
-    watch(
-      savedMemos,
-      (newVal) => {
-        localStorage.setItem('quasar_memo_history', JSON.stringify(newVal));
-      },
-      { deep: true },
-    );
-
     // Computed: Gruppieren nach Datum (Ordner)
     const groupedMemos = computed(() => {
       const groups: Record<string, MemoEntry[]> = {};
@@ -392,24 +377,17 @@ export default defineComponent({
 
       sorted.forEach((memo) => {
         if (!groups[memo.date]) groups[memo.date] = [];
-        // TS Fix: Nutze optional chaining oder explicit check, um undefined zu vermeiden
-        const currentGroup = groups[memo.date];
-        if (currentGroup) {
-          currentGroup.push(memo);
-        }
+        groups[memo.date].push(memo);
       });
 
       // Rückgabe sortiert nach Datum (Schlüssel)
+      // Wir wollen die neuesten Datum-Ordner oben
       return Object.keys(groups)
         .sort()
         .reverse()
         .reduce(
           (acc, date) => {
-            // TS Fix: Sicherstellen, dass der Wert nicht undefined ist
-            const group = groups[date];
-            if (group) {
-              acc[date] = group;
-            }
+            acc[date] = groups[date];
             return acc;
           },
           {} as Record<string, MemoEntry[]>,
@@ -434,19 +412,16 @@ export default defineComponent({
       $q.notify({ color: 'green', message: 'Key gespeichert!' });
     };
 
-    const saveMemo = (manual = false) => {
+    const saveMemo = () => {
       if (!summary.value) {
-        if (manual) $q.notify({ color: 'warning', message: 'Nichts zu speichern.' });
+        $q.notify({ color: 'warning', message: 'Nichts zu speichern.' });
         return;
       }
 
       const now = new Date();
-      // TS Fix: Sicherstellen, dass date ein string ist
-      const dateString = now.toISOString().split('T')[0] as string;
-
       const newEntry: MemoEntry = {
         id: Date.now(),
-        date: dateString, // YYYY-MM-DD
+        date: now.toISOString().split('T')[0], // YYYY-MM-DD
         time: now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }),
         transcript: transcript.value,
         rawSummary: summary.value,
@@ -454,17 +429,18 @@ export default defineComponent({
       };
 
       savedMemos.value.unshift(newEntry);
-      // LocalStorage wird durch den Watcher automatisch aktualisiert
-      if (manual) $q.notify({ color: 'green', icon: 'save', message: 'Gespeichert!' });
-      else $q.notify({ color: 'green', icon: 'auto_awesome', message: 'Automatisch gespeichert' });
+      localStorage.setItem('quasar_memo_history', JSON.stringify(savedMemos.value));
+      $q.notify({ color: 'green', icon: 'save', message: 'In Historie gespeichert!' });
     };
 
     const deleteMemo = (id: number) => {
       savedMemos.value = savedMemos.value.filter((m) => m.id !== id);
+      localStorage.setItem('quasar_memo_history', JSON.stringify(savedMemos.value));
       $q.notify({ color: 'grey', message: 'Gelöscht.' });
     };
 
     const formatDateLabel = (isoDate: string) => {
+      // Konvertiert YYYY-MM-DD zu DD.MM.YYYY
       if (!isoDate) return 'Unbekanntes Datum';
       const [year, month, day] = isoDate.split('-');
       return `${day}.${month}.${year}`;
@@ -529,6 +505,7 @@ Du bist ein professioneller Assistent. Fasse zusammen:
 Transkript: "${transcript.value} ${interimTranscript.value}"
       `;
 
+      // Helper für den Request
       const fetchGemini = async (model: string) => {
         return fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${storedApiKey}`,
@@ -543,10 +520,13 @@ Transkript: "${transcript.value} ${interimTranscript.value}"
       };
 
       try {
+        // Versuch 1: Stabiles Flash Model
         let data = await fetchGemini('gemini-2.5-pro');
 
+        // Check auf Fehler
         if (data.error) {
           console.warn('Flash fehlgeschlagen, versuche Pro...', data.error);
+          // Versuch 2: Fallback auf älteres Pro Modell
           data = await fetchGemini('gemini-pro');
         }
 
@@ -556,10 +536,6 @@ Transkript: "${transcript.value} ${interimTranscript.value}"
 
         if (data.candidates && data.candidates[0] && data.candidates[0].content) {
           summary.value = data.candidates[0].content.parts[0].text;
-
-          // --- AUTOMATISCHES SPEICHERN ---
-          saveMemo(false); // false = nicht manuell, also automatisch
-          // -------------------------------
         } else {
           throw new Error('Keine Antwort von Gemini erhalten.');
         }
@@ -583,8 +559,8 @@ Transkript: "${transcript.value} ${interimTranscript.value}"
       showSettings,
       apiKeyInput,
       hasKey,
-      savedMemos,
-      groupedMemos,
+      savedMemos, // Neu
+      groupedMemos, // Neu
       openSettings,
       saveKey,
       toggleRecording,
@@ -592,9 +568,9 @@ Transkript: "${transcript.value} ${interimTranscript.value}"
       simpleRenderMarkdown,
       copyToClipboard,
       generateSummary,
-      saveMemo,
-      deleteMemo,
-      formatDateLabel,
+      saveMemo, // Neu
+      deleteMemo, // Neu
+      formatDateLabel, // Neu
     };
   },
 });
