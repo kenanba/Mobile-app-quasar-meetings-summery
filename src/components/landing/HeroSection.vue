@@ -10,8 +10,10 @@
         </div>
 
         <div class="text-subtitle1 text-grey-4 q-mb-xl">
-          Sprich deine Ideen ein. QuasarMemo transkribiert,
-          analysiert und fasst sie automatisch zusammen.
+          Sprich deine Ideen ein. QuasarMemo transkribiert, analysiert
+          und fasst sie automatisch zusammen. Du kannst deine Meetings
+          aufnehmen und direkt eine strukturierte, gut beschriebene
+          Zusammenfassung erhalten.
         </div>
 
         <q-btn
