@@ -36,6 +36,7 @@ import HeroSection from 'components/landing/HeroSection.vue';
 import HowItWorks from 'components/landing/HowItWorks.vue';
 import PrivacySection from 'components/landing/PrivacySection.vue';
 import CallToAction from 'components/landing/CallToAction.vue';
+import { useMeta } from 'quasar';
 
 export default defineComponent({
   name: 'LandingPage',
@@ -44,6 +45,54 @@ export default defineComponent({
     HowItWorks,
     PrivacySection,
     CallToAction
+  },
+
+  setup(){
+    useMeta({
+      title: 'QuasarMemo – KI-gestützte Sprach- & Meeting-Zusammenfassung',
+      titleTemplate: (title) => `${title}`,
+
+      meta: {
+        description: {
+          name: 'description',
+          content:
+            'QuasarMemo transkribiert Sprachaufnahmen und Meetings automatisch und erstellt strukturierte Zusammenfassungen – lokal, privat und kostenlos.',
+        },
+
+        keywords: {
+          name: 'keywords',
+          content:
+            'Sprachmemo, KI Transkription, Meeting Zusammenfassung, Notizen App, Sprachaufnahme',
+        },
+
+        robots: {
+          name: 'robots',
+          content: 'index, follow',
+        },
+
+        charset: {
+          charset: 'utf-8',
+        },
+
+        viewport: {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1',
+        },
+
+        author: {
+          name: 'author',
+          content: 'QuasarMemo',
+        },
+      },
+
+      link: {
+        canonical: {
+          rel: 'canonical',
+          href: 'https://quasar-memo.netlify.app/',
+        },
+      },
+    });
+
   }
 });
 </script>

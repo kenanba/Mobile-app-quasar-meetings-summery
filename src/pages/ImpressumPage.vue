@@ -7,13 +7,23 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import ImpressumComponent from 'components/ImpressumComponent.vue';
-
+import { useMeta } from 'quasar';
 
 export default defineComponent({
   name: 'ImpressumPage',
   components: {
     ImpressumComponent,
   },
-
+  setup() {
+    useMeta({
+      title: 'Impressum – QuasarMemo',
+      meta: {
+        robots: {
+          name: 'robots',
+          content: 'noindex, nofollow',
+        },
+      },
+    });
+  },
 });
 </script>

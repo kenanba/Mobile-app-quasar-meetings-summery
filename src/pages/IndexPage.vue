@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, watch } from 'vue';
-import { useQuasar, copyToClipboard as qCopy } from 'quasar';
+import { useQuasar, copyToClipboard as qCopy, useMeta } from 'quasar';
 
 import HeaderBar from 'components/HeaderBar.vue';
 import EmptyState from 'components/EmptyState.vue';
@@ -170,9 +170,7 @@ export default defineComponent({
       const mins = Math.floor(recordingSeconds.value / 60);
       const secs = recordingSeconds.value % 60;
 
-      return `${mins.toString().padStart(2, '0')}:${secs
-        .toString()
-        .padStart(2, '0')}`;
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     });
 
     const startRecording = async () => {
@@ -261,24 +259,21 @@ export default defineComponent({
         );
         const data = await response.json();
 
-       if (data.error){
-         $q.notify({
-           color: 'negative',
-           message: 'Gemini Fehler: ' + data.error.message
-         });
-       }
+        if (data.error) {
+          $q.notify({
+            color: 'negative',
+            message: 'Gemini Fehler: ' + data.error.message,
+          });
+        }
         summary.value = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
         saveMemo(false);
       } catch (e: unknown) {
-        const message =
-          e instanceof Error
-            ? e.message
-            : 'Unbekannter Fehler bei Gemini';
+        const message = e instanceof Error ? e.message : 'Unbekannter Fehler bei Gemini';
 
         $q.notify({
           color: 'negative',
-          message: 'Gemini Fehler: ' + message
+          message: 'Gemini Fehler: ' + message,
         });
       } finally {
         loading.value = false;
@@ -338,6 +333,50 @@ export default defineComponent({
 
     // -------------------- RETURN --------------------
 
+    useMeta({
+      title: 'QuasarMemo – KI-gestützte Sprach- & Meeting-Zusammenfassung',
+      titleTemplate: (title) => `${title}`,
+
+      meta: {
+        description: {
+          name: 'description',
+          content:
+            'QuasarMemo transkribiert Sprachaufnahmen und Meetings automatisch und erstellt strukturierte Zusammenfassungen – lokal, privat und kostenlos.',
+        },
+
+        keywords: {
+          name: 'keywords',
+          content:
+            'Sprachmemo, KI Transkription, Meeting Zusammenfassung, Notizen App, Sprachaufnahme',
+        },
+
+        robots: {
+          name: 'robots',
+          content: 'index, follow',
+        },
+
+        charset: {
+          charset: 'utf-8',
+        },
+
+        viewport: {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1',
+        },
+
+        author: {
+          name: 'author',
+          content: 'QuasarMemo',
+        },
+      },
+
+      link: {
+        canonical: {
+          rel: 'canonical',
+          href: 'https://quasar-memo.netlify.app/',
+        },
+      },
+    });
     return {
       transcript,
       interimTranscript,
