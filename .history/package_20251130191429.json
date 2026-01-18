@@ -2,7 +2,7 @@
   "name": "quasar-project",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Ai Summery",
+  "productName": "Ai",
   "author": "kenanba <kenanbakre1994bk@gmail.com>",
   "type": "module",
   "private": true,

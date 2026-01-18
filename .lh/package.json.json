@@ -1,0 +1,26 @@
+{
+    "sourceFile": "package.json",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1764526467015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1764526474590,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n {\n   \"name\": \"quasar-project\",\n   \"version\": \"0.0.1\",\n   \"description\": \"A Quasar Project\",\n-  \"productName\": \"Ai\",\n+  \"productName\": \"Ai Summery\",\n   \"author\": \"kenanba <kenanbakre1994bk@gmail.com>\",\n   \"type\": \"module\",\n   \"private\": true,\n   \"scripts\": {\n"
+                },
+                {
+                    "date": 1764526482548,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n {\n   \"name\": \"quasar-project\",\n   \"version\": \"0.0.1\",\n   \"description\": \"A Quasar Project\",\n-  \"productName\": \"Ai Summery \",\n+  \"productName\": \"Ai Summery\",\n   \"author\": \"kenanba <kenanbakre1994bk@gmail.com>\",\n   \"type\": \"module\",\n   \"private\": true,\n   \"scripts\": {\n"
+                }
+            ],
+            "date": 1764526467015,
+            "name": "Commit-0",
+            "content": "{\n  \"name\": \"quasar-project\",\n  \"version\": \"0.0.1\",\n  \"description\": \"A Quasar Project\",\n  \"productName\": \"\",\n  \"author\": \"kenanba <kenanbakre1994bk@gmail.com>\",\n  \"type\": \"module\",\n  \"private\": true,\n  \"scripts\": {\n    \"lint\": \"eslint -c ./eslint.config.js \\\"./src*/**/*.{ts,js,cjs,mjs,vue}\\\"\",\n    \"format\": \"prettier --write \\\"**/*.{js,ts,vue,css,html,md,json}\\\" --ignore-path .gitignore\",\n    \"test\": \"echo \\\"No test specified\\\" && exit 0\",\n    \"dev\": \"quasar dev\",\n    \"build\": \"quasar build\",\n    \"postinstall\": \"quasar prepare\"\n  },\n  \"dependencies\": {\n    \"@quasar/extras\": \"^1.16.4\",\n    \"quasar\": \"^2.16.0\",\n    \"vue\": \"^3.5.22\",\n    \"vue-router\": \"^4.0.12\"\n  },\n  \"devDependencies\": {\n    \"@electron/packager\": \"^18.4.4\",\n    \"@eslint/js\": \"^9.14.0\",\n    \"@quasar/app-vite\": \"^2.1.0\",\n    \"@types/node\": \"^20.5.9\",\n    \"@vue/eslint-config-prettier\": \"^10.1.0\",\n    \"@vue/eslint-config-typescript\": \"^14.4.0\",\n    \"autoprefixer\": \"^10.4.2\",\n    \"electron\": \"^39.2.4\",\n    \"eslint\": \"^9.14.0\",\n    \"eslint-plugin-vue\": \"^10.4.0\",\n    \"globals\": \"^16.4.0\",\n    \"prettier\": \"^3.3.3\",\n    \"typescript\": \"^5.9.2\",\n    \"vite-plugin-checker\": \"^0.11.0\",\n    \"vue-eslint-parser\": \"^10.2.0\",\n    \"vue-tsc\": \"^3.0.7\"\n  },\n  \"engines\": {\n    \"node\": \"^28 || ^26 || ^24 || ^22 || ^20\",\n    \"npm\": \">= 6.13.4\",\n    \"yarn\": \">= 1.21.1\"\n  }\n}\n"
+        }
+    ]
+}

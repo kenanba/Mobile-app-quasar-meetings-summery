@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src-capacitor/android/app/src/main/AndroidManifest.xml",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1764525579021,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1764525579021,
+            "name": "Commit-0",
+            "content": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\">\n\n    <application\n        android:allowBackup=\"true\"\n        android:icon=\"@mipmap/ic_launcher\"\n        android:label=\"@string/app_name\"\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\n        android:supportsRtl=\"true\"\n        android:theme=\"@style/AppTheme\">\n        <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n        <uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\" />\n        <uses-permission android:name=\"android.permission.INTERNET\" />\n        <activity\n            android:configChanges=\"orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation\"\n            android:name=\".MainActivity\"\n            android:label=\"@string/title_activity_main\"\n            android:theme=\"@style/AppTheme.NoActionBarLaunch\"\n            android:launchMode=\"singleTask\"\n            android:exported=\"true\">\n\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\" />\n                <category android:name=\"android.intent.category.LAUNCHER\" />\n            </intent-filter>\n\n        </activity>\n\n        <provider\n            android:name=\"androidx.core.content.FileProvider\"\n            android:authorities=\"${applicationId}.fileprovider\"\n            android:exported=\"false\"\n            android:grantUriPermissions=\"true\">\n            <meta-data\n                android:name=\"android.support.FILE_PROVIDER_PATHS\"\n                android:resource=\"@xml/file_paths\"></meta-data>\n        </provider>\n    </application>\n\n    <!-- Permissions -->\n\n    <uses-permission android:name=\"android.permission.INTERNET\" />\n</manifest>\n"
+        }
+    ]
+}
