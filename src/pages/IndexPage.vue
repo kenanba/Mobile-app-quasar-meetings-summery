@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md flex flex-center column bg-dark text-white">
     <HeaderBar :has-key="hasKey" @open-settings="openSettings" />
-
+    <small style="margin-bottom: 10px">Bitte Mikrofonzugriff erlauben</small>
     <EmptyState v-if="showEmptyState" :has-key="hasKey" />
 
     <LivePreview
@@ -259,8 +259,14 @@ export default defineComponent({
             }),
           },
         );
-
         const data = await response.json();
+
+       if (data.error){
+         $q.notify({
+           color: 'negative',
+           message: 'Gemini Fehler: ' + data.error.message
+         });
+       }
         summary.value = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
         saveMemo(false);
