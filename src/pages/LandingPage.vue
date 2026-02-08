@@ -1,7 +1,13 @@
 <template>
   <q-layout view="hHh lpR fFf" class="bg-dark text-white">
 
-
+    <!-- HEADER with language selector -->
+    <q-header elevated class="bg-dark">
+      <q-toolbar>
+        <q-toolbar-title>QuasarMemo</q-toolbar-title>
+        <LanguageSelector />
+      </q-toolbar>
+    </q-header>
 
     <!-- CONTENT -->
     <q-page-container>
@@ -17,11 +23,16 @@
 
     <!-- FOOTER -->
     <q-footer class="bg-grey-10 text-grey-5">
-      <div class="row items-center justify-between q-pa-md">
-        <div>© 2026 QuasarMemo</div>
-        <div class="legal-links">
-          <router-link to="/impressum" style="color: #00acc1; text-decoration: none;">Impressum</router-link>
-          <router-link to="/data-protection" style="color: #00acc1; text-decoration: none; margin-left: 1rem;">Datenschutz</router-link>
+      <div class="q-pa-md">
+        <div class="row items-center justify-between">
+          <div>{{ $t('landing.footer.copyright') }}</div>
+          <div class="legal-links">
+            <router-link to="/impressum" style="color: #00acc1; text-decoration: none;">{{ $t('common.impressum') }}</router-link>
+            <router-link to="/data-protection" style="color: #00acc1; text-decoration: none; margin-left: 1rem;">{{ $t('common.dataProtection') }}</router-link>
+          </div>
+        </div>
+        <div class="text-caption text-grey-6 q-mt-sm text-center">
+          {{ $t('landing.footer.disclaimer') }}
         </div>
       </div>
     </q-footer>
@@ -36,7 +47,9 @@ import HeroSection from 'components/landing/HeroSection.vue';
 import HowItWorks from 'components/landing/HowItWorks.vue';
 import PrivacySection from 'components/landing/PrivacySection.vue';
 import CallToAction from 'components/landing/CallToAction.vue';
+import LanguageSelector from 'components/LanguageSelector.vue';
 import { useMeta } from 'quasar';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'LandingPage',
@@ -44,25 +57,25 @@ export default defineComponent({
     HeroSection,
     HowItWorks,
     PrivacySection,
-    CallToAction
+    CallToAction,
+    LanguageSelector,
   },
 
   setup(){
-    useMeta({
-      title: 'QuasarMemo – KI-gestützte Sprach- & Meeting-Zusammenfassung',
-      titleTemplate: (title) => `${title}`,
+    const { t } = useI18n();
+    useMeta(() => ({
+      title: t('index.meta.title'),
+      titleTemplate: (title: string) => `${title}`,
 
       meta: {
         description: {
           name: 'description',
-          content:
-            'QuasarMemo transkribiert Sprachaufnahmen und Meetings automatisch und erstellt strukturierte Zusammenfassungen – lokal, privat und kostenlos.',
+          content: t('index.meta.description'),
         },
 
         keywords: {
           name: 'keywords',
-          content:
-            'Sprachmemo, KI Transkription, Meeting Zusammenfassung, Notizen App, Sprachaufnahme',
+          content: t('index.meta.keywords'),
         },
 
         robots: {
@@ -91,7 +104,7 @@ export default defineComponent({
           href: 'https://quasar-memo.netlify.app/',
         },
       },
-    });
+    }));
 
   }
 });

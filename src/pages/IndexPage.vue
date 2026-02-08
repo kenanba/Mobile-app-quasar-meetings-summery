@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md flex flex-center column bg-dark text-white">
     <HeaderBar :has-key="hasKey" @open-settings="openSettings" />
-    <small style="margin-bottom: 10px">Bitte Mikrofonzugriff erlauben</small>
+    <small style="margin-bottom: 10px">{{ $t('index.microAccess') }}</small>
     <EmptyState v-if="showEmptyState" :has-key="hasKey" />
 
     <LivePreview
@@ -43,6 +43,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, watch } from 'vue';
 import { useQuasar, copyToClipboard as qCopy, useMeta } from 'quasar';
+import { useI18n } from 'vue-i18n';
 
 import HeaderBar from 'components/HeaderBar.vue';
 import EmptyState from 'components/EmptyState.vue';
@@ -75,6 +76,7 @@ export default defineComponent({
 
   setup() {
     const $q = useQuasar();
+    const { t } = useI18n();
 
     // UI State
     const transcript = ref('');
@@ -249,7 +251,7 @@ export default defineComponent({
               contents: [
                 {
                   parts: [
-                    { text: 'Transkribiere und fasse zusammen.' },
+                    { text: t('index.geminiPrompt') },
                     { inlineData: { mimeType: 'audio/webm', data: base64 } },
                   ],
                 },
@@ -262,18 +264,18 @@ export default defineComponent({
         if (data.error) {
           $q.notify({
             color: 'negative',
-            message: 'Gemini Fehler: ' + data.error.message,
+            message: t('index.notify.geminiError') + ': ' + data.error.message,
           });
         }
         summary.value = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
         saveMemo(false);
       } catch (e: unknown) {
-        const message = e instanceof Error ? e.message : 'Unbekannter Fehler bei Gemini';
+        const message = e instanceof Error ? e.message : t('index.notify.unknownError');
 
         $q.notify({
           color: 'negative',
-          message: 'Gemini Fehler: ' + message,
+          message: t('index.notify.geminiError') + ': ' + message,
         });
       } finally {
         loading.value = false;
@@ -295,7 +297,7 @@ export default defineComponent({
         transcript: finalGeminiTranscript.value,
         rawSummary: summary.value,
       });
-      $q.notify({ color: 'green', message: manual ? 'Gespeichert' : 'Fertig' });
+      $q.notify({ color: 'green', message: manual ? t('index.notify.saved') : t('index.notify.done') });
     };
 
     const deleteMemo = (id: number) => {
@@ -319,35 +321,33 @@ export default defineComponent({
       showSettings.value = false;
     };
 
-    const copyToClipboard = (t: string) => {
-      void qCopy(t)
+    const copyToClipboard = (text: string) => {
+      void qCopy(text)
         .then(() => {
-          $q.notify({ color: 'green', message: 'Kopiert' });
+          $q.notify({ color: 'green', message: t('common.copy') });
         })
         .catch(() => {
-          $q.notify({ color: 'negative', message: 'Fehler beim Kopieren' });
+          $q.notify({ color: 'negative', message: t('common.copyError') });
         });
     };
-    const simpleRenderMarkdown = (t: string) =>
-      t.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+    const simpleRenderMarkdown = (text: string) =>
+      text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
 
     // -------------------- RETURN --------------------
 
-    useMeta({
-      title: 'QuasarMemo – KI-gestützte Sprach- & Meeting-Zusammenfassung',
-      titleTemplate: (title) => `${title}`,
+    useMeta(() => ({
+      title: t('index.meta.title'),
+      titleTemplate: (title: string) => `${title}`,
 
       meta: {
         description: {
           name: 'description',
-          content:
-            'QuasarMemo transkribiert Sprachaufnahmen und Meetings automatisch und erstellt strukturierte Zusammenfassungen – lokal, privat und kostenlos.',
+          content: t('index.meta.description'),
         },
 
         keywords: {
           name: 'keywords',
-          content:
-            'Sprachmemo, KI Transkription, Meeting Zusammenfassung, Notizen App, Sprachaufnahme',
+          content: t('index.meta.keywords'),
         },
 
         robots: {
@@ -376,7 +376,7 @@ export default defineComponent({
           href: 'https://quasar-memo.netlify.app/',
         },
       },
-    });
+    }));
     return {
       transcript,
       interimTranscript,

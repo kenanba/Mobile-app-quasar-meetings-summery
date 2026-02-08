@@ -13,7 +13,7 @@
       v-if="hasAudio && !isRecording"
       rounded
       icon="auto_awesome"
-      label="Verarbeiten"
+      :label="$t('index.controls.process')"
       :loading="loading"
       @click="$emit('process')"
     />

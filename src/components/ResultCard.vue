@@ -3,7 +3,7 @@
     <q-card-section>
       <div class="row justify-between items-center q-mb-md">
         <div class="text-h6 text-pink-3">
-          <q-icon name="auto_awesome" class="q-mr-sm" /> KI Ergebnis
+          <q-icon name="auto_awesome" class="q-mr-sm" /> {{ $t('index.result.title') }}
         </div>
         <div class="row q-gutter-sm">
           <q-btn flat round icon="save" @click="$emit('save')" />
@@ -13,7 +13,7 @@
 
       <div class="text-body1 q-mb-md" v-html="summary"></div>
 
-      <q-expansion-item dense expand-separator label="Perfektes Transkript">
+      <q-expansion-item dense expand-separator :label="$t('index.result.transcript')">
         <div class="q-pa-sm text-body2 text-grey-4">
           {{ transcript }}
         </div>

@@ -6,8 +6,8 @@
   >
     <q-card class="bg-grey-9 text-white" style="min-width: 350px">
       <q-card-section>
-        <div class="text-h6">Einstellungen</div>
-        <small>Gemini Private Schlüßel</small>
+        <div class="text-h6">{{ $t('index.settings.title') }}</div>
+        <small>{{ $t('index.settings.geminiKey') }}</small>
       </q-card-section>
 
       <q-card-section>
@@ -16,14 +16,14 @@
           @update:model-value="$emit('update:apiKey', $event)"
           filled
           dark
-          label="Gemini API Key"
+          :label="$t('index.settings.apiKeyLabel')"
           type="password"
           name="apiKey"
         />
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="Speichern" color="primary" @click="$emit('save')" />
+        <q-btn flat :label="$t('common.save')" color="primary" @click="$emit('save')" />
       </q-card-actions>
     </q-card>
   </q-dialog>

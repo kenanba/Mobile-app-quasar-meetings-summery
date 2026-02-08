@@ -5,15 +5,12 @@
       <!-- TEXT -->
       <div class="col-12 col-md-6">
         <div class="text-h2 text-weight-bold q-mb-md">
-          Deine Gedanken.
-          <span class="text-pink-4">Sofort organisiert.</span>
+          {{ $t('landing.hero.title') }}
+          <span class="text-pink-4">{{ $t('landing.hero.titleHighlight') }}</span>
         </div>
 
         <div class="text-subtitle1 text-grey-4 q-mb-xl">
-          Sprich deine Ideen ein. QuasarMemo transkribiert, analysiert
-          und fasst sie automatisch zusammen. Du kannst deine Meetings
-          aufnehmen und direkt eine strukturierte, gut beschriebene
-          Zusammenfassung erhalten.
+          {{ $t('landing.hero.subtitle') }}
         </div>
 
         <q-btn
@@ -21,7 +18,7 @@
           size="lg"
           rounded
           icon="mic"
-          label="Jetzt aufnehmen"
+          :label="$t('landing.hero.cta')"
           to="/ai"
         />
       </div>

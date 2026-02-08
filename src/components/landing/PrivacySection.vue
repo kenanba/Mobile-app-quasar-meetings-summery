@@ -3,12 +3,11 @@
     <q-icon name="verified_user" size="48px" color="green-4" />
 
     <div class="text-h6 q-mt-md">
-      Datenschutz steht an erster Stelle
+      {{ $t('landing.privacy.title') }}
     </div>
 
     <div class="text-caption text-grey-5" style="max-width:600px;margin:auto">
-      Deine Aufnahmen und Zusammenfassungen werden lokal gespeichert.
-      Es gibt keine Nutzerkonten, kein Tracking und keine Werbung.
+      {{ $t('landing.privacy.desc') }}
     </div>
   </section>
 </template>

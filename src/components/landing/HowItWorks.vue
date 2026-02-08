@@ -1,29 +1,29 @@
 <template>
   <section class="how-it-works-section">
-    <h2 class="section-title">So funktioniert es</h2>
+    <h2 class="section-title">{{ $t('landing.howItWorks.title') }}</h2>
 
     <div class="steps-container">
       <div class="step-card">
         <div class="step-number">1</div>
-        <h3 class="step-title">Sprich deine Nachricht</h3>
+        <h3 class="step-title">{{ $t('landing.howItWorks.step1.title') }}</h3>
         <p class="step-desc">
-          Starte die Aufnahme mit einem Klick auf das Mikrofon.
+          {{ $t('landing.howItWorks.step1.desc') }}
         </p>
       </div>
 
       <div class="step-card">
         <div class="step-number">2</div>
-        <h3 class="step-title">KI verarbeitet deine Aufnahme</h3>
+        <h3 class="step-title">{{ $t('landing.howItWorks.step2.title') }}</h3>
         <p class="step-desc">
-          Automatische Transkription und Zusammenfassung der Nachricht.
+          {{ $t('landing.howItWorks.step2.desc') }}
         </p>
       </div>
 
       <div class="step-card">
         <div class="step-number">3</div>
-        <h3 class="step-title">Ergebnis erhalten</h3>
+        <h3 class="step-title">{{ $t('landing.howItWorks.step3.title') }}</h3>
         <p class="step-desc">
-          Du siehst das fertige Transkript und die strukturierte Zusammenfassung.
+          {{ $t('landing.howItWorks.step3.desc') }}
         </p>
       </div>
     </div>

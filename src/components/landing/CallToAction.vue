@@ -1,7 +1,7 @@
 <template>
   <section class="q-pa-xl text-center">
     <div class="text-h5 q-mb-md">
-      Bereit, produktiver zu denken?
+      {{ $t('landing.cta.title') }}
     </div>
 
     <q-btn
@@ -9,7 +9,7 @@
       size="lg"
       rounded
       icon="mic"
-      label="Jetzt starten"
+      :label="$t('landing.cta.button')"
       to="/ai"
     />
   </section>
