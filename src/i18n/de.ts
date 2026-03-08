@@ -11,7 +11,8 @@ export default {
     hero: {
       title: 'Deine Gedanken.',
       titleHighlight: 'Sofort organisiert.',
-      subtitle: 'Sprich deine Ideen ein. QuasarMemo transkribiert, analysiert und fasst sie automatisch zusammen. Du kannst deine Meetings aufnehmen und direkt eine strukturierte, gut beschriebene Zusammenfassung erhalten.',
+      subtitle:
+        'Sprich deine Ideen ein. QuasarMemo transkribiert, analysiert und fasst sie automatisch zusammen. Du kannst deine Meetings aufnehmen und direkt eine strukturierte, gut beschriebene Zusammenfassung erhalten.',
       cta: 'Jetzt aufnehmen',
     },
     howItWorks: {
@@ -70,8 +71,10 @@ export default {
     },
     meta: {
       title: 'QuasarMemo – KI-gestützte Sprach- & Meeting-Zusammenfassung',
-      description: 'QuasarMemo transkribiert Sprachaufnahmen und Meetings automatisch und erstellt strukturierte Zusammenfassungen – lokal, privat und kostenlos.',
-      keywords: 'Sprachmemo, KI Transkription, Meeting Zusammenfassung, Notizen App, Sprachaufnahme',
+      description:
+        'QuasarMemo transkribiert Sprachaufnahmen und Meetings automatisch und erstellt strukturierte Zusammenfassungen – lokal, privat und kostenlos.',
+      keywords:
+        'Sprachmemo, KI Transkription, Meeting Zusammenfassung, Notizen App, Sprachaufnahme',
     },
     geminiPrompt: 'Transkribiere und fasse zusammen.',
   },
@@ -79,5 +82,27 @@ export default {
     label: 'Sprache',
     de: 'Deutsch',
     en: 'English',
+  },
+  imprint: {
+    title: 'Impressum',
+    appName: 'QuasarMemo',
+    author: 'Bakre',
+    address: 'Berlin 12099, Deutschland',
+    noteLabel: 'Hinweis:',
+    noteText:
+      'Dies ist eine rein private, kostenlose App. Es werden keine personenbezogenen Daten gespeichert oder verarbeitet.',
+  },
+  privacy: {
+    title: 'Datenschutz',
+    dataStorage:
+      'QuasarMemo speichert keinerlei personenbezogene Daten auf externen Servern. Alle Sprachaufnahmen und Inhalte werden nur lokal auf Ihrem Gerät gespeichert.',
+    aiProcessing:
+      'Diese App fungiert als Vermittler zwischen Ihnen und einer KI (Gemini). Inhalte, die Sie an die KI senden, werden von Gemini verarbeitet und anschließend in der App angezeigt. Für die Verarbeitung dieser Daten durch Gemini gelten die Datenschutzbestimmungen von Google.',
+    apiKey:
+      'Zur Nutzung der KI-Funktionen ist Ihr persönlicher Gemini API-Key erforderlich. Dieser wird ausschließlich lokal auf Ihrem Gerät gespeichert und niemals an unsere Server übertragen.',
+    userResponsibility:
+      'Was Sie an die KI senden, liegt in Ihrer eigenen Verantwortung. Die App hat keinen Einfluss darauf, wie und wo Google bzw. Gemini Ihre Daten verarbeitet oder speichert.',
+    noPayment:
+      'Da die App keine finanziellen Transaktionen beinhaltet, sind auch keine Zahlungsinformationen erforderlich.',
   },
 };

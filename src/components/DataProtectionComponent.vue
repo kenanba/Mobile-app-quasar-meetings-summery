@@ -1,24 +1,26 @@
 <template>
   <section class="hero legal-hero">
     <div class="row items-center q-col-gutter-xl">
-
-      <!-- TEXT -->
       <div>
         <div class="text-h2 text-weight-bold q-mb-md text-pink-4">
-          Datenschutz
+          {{ $t('privacy.title') }}
         </div>
-
         <div class="text-subtitle1 text-grey-4 q-mb-xl">
-          QuasarMemo speichert keinerlei personenbezogene Daten. Alle Sprachaufnahmen und Inhalte werden nur lokal auf Ihrem Gerät verarbeitet.
-          Es erfolgt keine Übertragung an Dritte oder Server.
+          {{ $t('privacy.dataStorage') }}
         </div>
-
         <div class="text-subtitle1 text-grey-4 q-mb-xl">
-          Da die App keine finanziellen Transaktionen beinhaltet, sind auch keine Zahlungsinformationen erforderlich.
+          {{ $t('privacy.aiProcessing') }}
+        </div>
+        <div class="text-subtitle1 text-grey-4 q-mb-xl">
+          {{ $t('privacy.apiKey') }}
+        </div>
+        <div class="text-subtitle1 text-grey-4 q-mb-xl">
+          {{ $t('privacy.userResponsibility') }}
+        </div>
+        <div class="text-subtitle1 text-grey-4 q-mb-xl">
+          {{ $t('privacy.noPayment') }}
         </div>
       </div>
-
-
     </div>
   </section>
 </template>
@@ -27,7 +29,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'DataProtectionPage'
+  name: 'DataProtectionPage',
 });
 </script>
 
@@ -46,6 +48,6 @@ export default defineComponent({
   max-width: 200px;
   margin-top: 2rem;
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 </style>

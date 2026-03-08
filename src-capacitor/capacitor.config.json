@@ -1,5 +1,5 @@
 {
-  "appId": "org.capacitor.quasar.app",
-  "appName": "Quasar App",
+  "appId": "quasar.memo.app",
+  "appName": "Ai Summery",
   "webDir": "www"
 }

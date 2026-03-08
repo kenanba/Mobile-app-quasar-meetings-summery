@@ -1,29 +1,23 @@
 <template>
   <section class="hero legal-hero">
     <div class="row items-center q-col-gutter-xl">
-
-      <!-- TEXT -->
       <div>
-        <div class="text-h2 text-weight-bold q-mb-md text-pink-4" >
-          Impressum
+        <div class="text-h2 text-weight-bold q-mb-md text-pink-4">
+          {{ $t('imprint.title') }}
         </div>
-
         <div class="text-subtitle1 text-grey-4 q-mb-xl">
-          <strong>QuasarMemo</strong>
+          <strong>{{ $t('imprint.appName') }}</strong>
         </div>
         <div class="text-subtitle1 text-grey-4 q-mb-md">
-          Bakre
+          {{ $t('imprint.author') }}
         </div>
         <div class="text-subtitle1 text-grey-4 q-mb-md">
-          Berlin 12099, Deutschland
+          {{ $t('imprint.address') }}
         </div>
-
         <div class="text-subtitle1 text-grey-4 q-mt-lg">
-          <strong>Hinweis:</strong> Dies ist eine rein private, kostenlose App.
-          Es werden keine personenbezogenen Daten gespeichert oder verarbeitet.
+          <strong>{{ $t('imprint.noteLabel') }}</strong> {{ $t('imprint.noteText') }}
         </div>
       </div>
-
     </div>
   </section>
 </template>
@@ -32,7 +26,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'ImpressumPage'
+  name: 'ImpressumPage',
 });
 </script>
 
@@ -51,6 +45,6 @@ export default defineComponent({
   max-width: 200px;
   margin-top: 2rem;
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 </style>

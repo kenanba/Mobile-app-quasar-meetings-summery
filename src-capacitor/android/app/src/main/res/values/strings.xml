@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Meetings Summary</string>
-    <string name="title_activity_main">Meetings Summary</string>
-    <string name="package_name">Meetings Summary</string>
-    <string name="custom_url_scheme">org.capacitor.quasar.app</string>
+    <string name="app_name">Ai Summery</string>
+    <string name="title_activity_main">Ai Summery</string>
+    <string name="package_name">quasar.memo.app</string>
+    <string name="custom_url_scheme">quasar.memo.app</string>
 </resources>
