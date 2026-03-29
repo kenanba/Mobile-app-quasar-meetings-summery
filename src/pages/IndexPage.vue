@@ -264,7 +264,7 @@ export default defineComponent({
         if (data.error) {
           $q.notify({
             color: 'negative',
-            message: t('index.notify.geminiError') + ': ' + data.error.message,
+            message: t('index.notify.geminiError') + ': ' + data.error.message.slice(0, 120) + ' ....',
           });
         }
         summary.value = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -297,7 +297,10 @@ export default defineComponent({
         transcript: finalGeminiTranscript.value,
         rawSummary: summary.value,
       });
-      $q.notify({ color: 'green', message: manual ? t('index.notify.saved') : t('index.notify.done') });
+      $q.notify({
+        color: 'green',
+        message: manual ? t('index.notify.saved') : t('index.notify.done'),
+      });
     };
 
     const deleteMemo = (id: number) => {

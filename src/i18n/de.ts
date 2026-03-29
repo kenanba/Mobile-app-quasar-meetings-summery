@@ -60,7 +60,8 @@ export default {
     },
     settings: {
       title: 'Einstellungen',
-      geminiKey: 'Gemini Private Schlüssel',
+      geminiKey:
+        'Gemini API-Schlüssel: Deinen Schlüssel findest du unter https://aistudio.google.com/app/apikey',
       apiKeyLabel: 'Gemini API Key',
     },
     notify: {

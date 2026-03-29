@@ -1,7 +1,7 @@
 {
-  "name": "quasar-project",
-  "version": "0.0.1",
-  "description": "A Quasar Project",
+  "name": "Mobile-app-quasar-meetings-summery",
+  "version": "0.0.2",
+  "description": "",
   "author": "kenanba <kenanbakre1994bk@gmail.com>",
   "private": true,
   "dependencies": {
